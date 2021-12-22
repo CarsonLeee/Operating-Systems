@@ -1,5 +1,5 @@
 # Project Description
-In this assignment students learn how to use pipe for bi-directional communication between parent and child process. 
+In this assignment students get experience with the fork(), wait() and execl() system functions
 
 # Student Contribution
 Student implemented these c files: `assignment1.c`
