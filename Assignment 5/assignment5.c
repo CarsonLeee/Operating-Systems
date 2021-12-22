@@ -17,7 +17,7 @@ int num_transactions[100];
 void* performTransactions(void *arg) {
     int num_client = (int *)arg;
 
-    //To perform the client's transactions, we loop through them and perform the needed actions
+    //Loop through client transactions and perform the needed actions
     int i = 0;
     while(i < num_transactions[num_client]*3) {
         //To process next transaction, we first wait for the semaphore
@@ -26,20 +26,19 @@ void* performTransactions(void *arg) {
         char trans_type = all_transactions[num_client][i][0];
         int acc = atoi(all_transactions[num_client][i+1]+1)-1;
         int amt = atoi(all_transactions[num_client][i+2]);
-        //Then, we check type of transaction
+        //Checks type of transaction
         if(trans_type == 'w' || trans_type == 'W') {
-            //A withdrawal should be made. We check that the amount needed is available. If so, we do the withdrawal
+            //Withdrawal should be made. Check that the amount needed is available. If so, we do the withdrawal
             if(accounts[acc] - amt >= 0) {
                 accounts[acc] -= amt;
             }
         } else {
-            //A deposit should be made. We check that the deposit amount is valid (meaning the final balance becomes positive).
-            //If so, we do the deposit
+            //A deposit should be made. We check that the deposit amount is valid (meaning the final balance becomes positive). If so, we do the deposit
             if(accounts[acc] + amt >= 0) {
                 accounts[acc] += amt;
             }
         }
-        //Then, we release the semaphore and increase i index for next transactions
+        //Release the semaphore and increase i index for next transactions
         sem_post(&mutex);
         i += 3;
     }
@@ -48,7 +47,7 @@ void* performTransactions(void *arg) {
 
 //Main function that starts the Bank application, using Mutual Exclution for sync processes
 int main() {  
-    //First of all, we start reading each of the lines within the file. 
+    //Start reading each of the lines within the file. 
     FILE *fp;
     char str[100];
     fp = fopen("assignment_6_input.txt", "r");
